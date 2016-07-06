@@ -7,14 +7,14 @@ $app->register(
       'mysql_read' => array(
         'driver' => 'pdo_mysql',
         'host' => 'localhost',
-        'dbname' => 'doctors',
+        'dbname' => 'silex_booking',
         'user' => 'root',
         'password' => '',
       ),
       'mysql_write' => array(
         'driver' => 'pdo_mysql',
         'host' => 'localhost',
-        'dbname' => 'doctors',
+        'dbname' => 'silex_booking',
         'user' => 'root',
         'password' => '',
       ),
