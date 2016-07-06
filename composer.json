@@ -8,5 +8,8 @@
       "name": "Sergey Susikov",
       "email": "sergey.susikov@gmail.com"
     }
-  ]
+  ],
+  "require": {
+    "silex/silex": "~2.0"
+  }
 }
