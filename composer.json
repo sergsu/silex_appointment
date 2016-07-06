@@ -1,0 +1,12 @@
+{
+  "name": "Angerslave/silex-booking",
+  "description": "Silex booking app",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Sergey Susikov",
+      "email": "sergey.susikov@gmail.com"
+    }
+  ]
+}
