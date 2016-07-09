@@ -1,4 +1,32 @@
 <div class="schedule">
     <h2>Choose a Doctor</h2>
+    <div class="doctors">
+        <a *ngFor="let doctor of doctors"
+           class="btn btn-default"
+           [class.btn-primary]="selectedDoctor == doctor"
+           href="#doctor-{{ doctor.id }}"
+           (click)="selectedDoctor = doctor"
+           role="button">
+            {{ doctor.name }}
+        </a>
+    </div>
 
+    <h2>Choose the Time</h2>
+    <table class="timetable table table-striped">
+        <tr>
+            <th>Time</th>
+            <th *ngFor="let day of days">{{weekDays[day.getDay()]}}<br />{{day.toLocaleDateString()}}</th>
+        </tr>
+        <tr *ngFor="let time of slots">
+            <td>{{time[0].time.formatted}}</td>
+            <td
+                    *ngFor="let day of time"
+                    [class.active]="day.active"
+                    [class.success]="day.active"
+                    [class.danger]="!day.active"
+            >
+                <span class="glyphicon" [class.glyphicon-ok]="day.active" [class.glyphicon-remove]="!day.active"></span>
+            </td>
+        </tr>
+    </table>
 </div>

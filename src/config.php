@@ -1,5 +1,8 @@
 <?php
 
+// Time slot size.
+$app['appointment_time_amount'] = '15'; // Minutes.
+
 // Database.
 $app->register(
   new Silex\Provider\DoctrineServiceProvider(),

@@ -5,10 +5,11 @@
         Schedule = {
             doctors: [
                 {% for doctor in doctors %}
-                    {'id': {{ doctor.id }}, 'name': '{{ doctor.name }}'}{% if not loop.last %},{% endif %}
+                {'id': {{ doctor.id }}, 'name': '{{ doctor.name }}'}{% if not loop.last %},{% endif %}
 
                 {% endfor %}
-            ]
+            ],
+            slotSize: {{ app.appointment_time_amount }}
         }
     </script>
 
@@ -27,15 +28,15 @@
 
 {% block content %}
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <h1>Schedule an&nbsp;Appointment</h1>
-        <schedule>
-            <div class="schedule">
-                <h2>Choose a Doctor</h2>
+    <h1>Schedule an&nbsp;Appointment</h1>
+    <schedule>
+        <div class="schedule">
+            <h2>Choose a Doctor</h2>
+            <div class="doctors">
                 {% for doctor in doctors %}
                     <a class="btn btn-default" href="#doctor-{{ doctor.id }}" role="button">{{ doctor.name }}</a>
                 {% endfor %}
             </div>
-        </schedule>
-    </div>
+        </div>
+    </schedule>
 {% endblock %}
