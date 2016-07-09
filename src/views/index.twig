@@ -1,21 +1,41 @@
 {% extends 'base.twig' %}
 
 {% block head %}
-        <script src="/ng2/node_modules/core-js/client/shim.min.js"></script>
-        <script src="/ng2/node_modules/zone.js/dist/zone.js"></script>
-        <script src="/ng2/node_modules/reflect-metadata/Reflect.js"></script>
-        <script src="/ng2/node_modules/systemjs/dist/system.src.js"></script>
-        <!-- 2. Configure SystemJS -->
-        <script src="/ng2/systemjs.config.js"></script>
-        <script>
-          System.import('app').catch(function(err){ console.error(err); });
-        </script>
+    <script type="text/javascript">
+        Schedule = {
+            doctors: [
+                {% for doctor in doctors %}
+                    {'id': {{ doctor.id }}, 'name': '{{ doctor.name }}'}{% if not loop.last %},{% endif %}
+
+                {% endfor %}
+            ]
+        }
+    </script>
+
+    <script src="/ng2/node_modules/core-js/client/shim.min.js"></script>
+    <script src="/ng2/node_modules/zone.js/dist/zone.js"></script>
+    <script src="/ng2/node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="/ng2/node_modules/systemjs/dist/system.src.js"></script>
+    <!-- 2. Configure SystemJS -->
+    <script src="/ng2/systemjs.config.js"></script>
+    <script>
+        System.import('app').catch(function (err) {
+            console.error(err);
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <h1>Schedule an&nbsp;Appointment</h1>
-        <schedule>Loading...</schedule>
+        <schedule>
+            <div class="schedule">
+                <h2>Choose a Doctor</h2>
+                {% for doctor in doctors %}
+                    <a class="btn btn-default" href="#doctor-{{ doctor.id }}" role="button">{{ doctor.name }}</a>
+                {% endfor %}
+            </div>
+        </schedule>
     </div>
 {% endblock %}
