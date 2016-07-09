@@ -1,7 +1,7 @@
 {
   "name": "Angerslave/silex-booking",
   "description": "Silex booking app",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
@@ -11,6 +11,7 @@
   ],
   "require": {
     "silex/silex": "~2.0",
-    "doctrine/dbal": "~2.2"
+    "doctrine/dbal": "~2.2",
+    "twig/twig": "~1.24"
   }
 }
