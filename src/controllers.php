@@ -52,11 +52,11 @@ $app->post(
         'appointments',
         array(
           'doctor_id' => $doctor_id,
-          'time_start' => $time,
+          'time_start' => date('Y-m-d H:i:s', $time),
           'phone' => $phone,
-          'created_at' => time(),
-          'updated_at' => time(),
-          'version' => 1,
+          'created_at' => gmdate('Y-m-d H:i:s'),
+          'updated_at' => gmdate('Y-m-d H:i:s'),
+          'version' => 0,
         )
       );
 

@@ -48,6 +48,19 @@
 
 <div class="container" role="main">
 
+    {% if app.session.flashBag is defined %}
+        {% set flashTypeAvailable = [ 'success', 'danger'] %}
+        {% for flashType in flashTypeAvailable %}
+            {% for flash in app.session.flashBag.get(flashType) %}
+                <div class="alert alert-{{ flashType }}">
+                    <button class="close" data-dismiss="alert">×</button>
+                    {{ flash }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+
     {% block content %}{% endblock %}
 
 </div> <!-- /container -->

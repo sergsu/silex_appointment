@@ -6,3 +6,29 @@ doctors:
             type: text
             label: Name
             required: true
+
+appointments:
+    label: Appointment
+    table: appointments
+    pageSize: 50
+    listFields: [doctor_id, time_start, phone, confirmed]
+    initialSortField: time_start
+    initialSortAscending: false
+    fields:
+        doctor_id:
+            type: reference
+            reference:
+                table: doctors
+                nameField: name
+                entity: doctors
+        time_start:
+            type: datetime
+            label: Time
+            required: true
+        phone:
+            type: text
+            label: Phone
+            required: true
+        confirmed:
+            type: bool
+            label: Confirmed
