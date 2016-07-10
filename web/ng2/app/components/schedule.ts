@@ -86,14 +86,20 @@ export class ScheduleComponent {
 
     // Open the appointment creation dialog.
     public openDialog(day) {
+        // The slot may be already inactive.
         if (!day.active) {
             return;
         }
 
+        // Remember selection.
         this.selectedSlot = day;
         this.appointment.doctor = this.selectedDoctor;
         this.appointment.start = this.selectedSlot.date;
 
+        // Clean form error string.
+        this.formError = '';
+
+        // Show the dialog.
         $('#appointment-dialog').modal();
     }
 
@@ -101,6 +107,7 @@ export class ScheduleComponent {
     public createAppointment(appointment) {
         this.disableForm = true;
         this.formError = '';
+
         this._api.createAppointment(appointment).then((res) => {
             this.disableForm = false;
 
@@ -111,6 +118,9 @@ export class ScheduleComponent {
             else {
                 $('#appointment-dialog').modal('hide');
             }
+        }, (error) => {
+            this.disableForm = false;
+            this.formError = 'Internal error occured!';
         });
     }
 }
