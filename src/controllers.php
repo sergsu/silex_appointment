@@ -47,9 +47,9 @@ $app->get(
           $current_day_time_end = $start + $day * 86400 + $app['doctor_workday_time_end'] * 60 * 60;
           $slot_size = $app['appointment_time_amount'];
           $current_day_string = date('Y-m-d ', $current_day_time);
-          for ($time = $current_day_time; $time < $current_day_time_end; $time += $slot_size) {
-              $hours = $time % 3600;
-              $minutes = $time % 60;
+          for ($time = $current_day_time; $time < $current_day_time_end; $time += $slot_size * 60) {
+              $hours = floor(($time % 86400) / 3600);
+              $minutes = floor(($time % 3600) / 60);
               $possible_slots[] = $current_day_string . ($hours < 10 ? '0' . $hours : $hours) . ':' . ($minutes < 10 ? '0' . $minutes : $minutes) . ':00';
           }
       }
