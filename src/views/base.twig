@@ -36,11 +36,21 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/">Home</a></li>
-                {% for entity in app.crud.getEntities() %}
-                    <li {% if crudEntity is defined and crudEntity == entity %} class="active" {% endif %}>
-                        <a href="{{ app.url_generator.generate('crudList', {'entity': entity}) }}">Manage {{ app.crud.getData(entity).getDefinition().getLabel() }}s</a>
-                    </li>
-                {% endfor %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% for entity in app.crud.getEntities() %}
+                        <li {% if crudEntity is defined and crudEntity == entity %} class="active" {% endif %}>
+                            <a href="{{ app.url_generator.generate('crudList', {'entity': entity}) }}">Manage {{ app.crud.getData(entity).getDefinition().getLabel() }}s</a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+
+                <li>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a href="/crud/logout">Logout</a>
+                    {% else %}
+                        <a href="/login">Login</a>
+                    {% endif %}
+                </li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

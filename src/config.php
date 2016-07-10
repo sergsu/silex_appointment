@@ -42,3 +42,21 @@ $app->register(new CRUDlex\CRUDServiceProvider(), array(
     'crud.datafactory' => $dataFactory
 ));
 $app->mount('/crud', new CRUDlex\CRUDControllerProvider());
+
+// Users
+$app['security.firewalls'] = array(
+    'login' => array(
+        'pattern' => '^/login$',
+    ),
+    'crud' => array(
+        'pattern' => '^/crud/',
+        'users' => array(
+            // raw password is foo
+            'admin' => array('ROLE_ADMIN', 'nhDr7OyKlXQju+Ge/WKGrPQ9lPBSUFfpK+B1xqx/+8zLZqRNX0+5G1zBQklXUFy86lCpkAofsExlXiorUcKSNQ=='),
+        ),
+        'form' => array('login_path' => '/login', 'check_path' => '/crud/login_check'),
+        'logout' => array('logout_path' => '/crud/logout', 'invalidate_session' => true),
+    ),
+);
+$app->register(new Silex\Provider\SecurityServiceProvider());
+$app->register(new Silex\Provider\SessionServiceProvider());

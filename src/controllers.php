@@ -91,3 +91,9 @@ $app->post(
       return new JsonResponse(array('status' => 'ok'));
   }
 );
+$app->get('/login', function(Request $request) use ($app) {
+    return $app['twig']->render('login.twig', array(
+        'error'         => $app['security.last_error']($request),
+        'last_username' => $app['session']->get('_security.last_username'),
+    ));
+});
