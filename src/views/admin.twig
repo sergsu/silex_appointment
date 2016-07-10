@@ -1,0 +1,11 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+    <ul class="nav nav-pills nav-stacked">
+    {% for entity in app.crud.getEntities() %}
+        <li role="presentation">
+            <a href="{{ app.url_generator.generate('crudList', {'entity': entity}) }}">Manage {{ app.crud.getData(entity).getDefinition().getLabel() }}s</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

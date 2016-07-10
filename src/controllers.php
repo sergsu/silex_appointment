@@ -101,3 +101,7 @@ $app->get('/login', function(Request $request) use ($app) {
         'last_username' => $app['session']->get('_security.last_username'),
     ));
 });
+$app->get('/crud/', function(Request $request) use ($app) {
+    return $app['twig']->render('admin.twig', array(
+    ));
+});
