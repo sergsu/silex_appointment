@@ -70,7 +70,7 @@ $app->post(
       }
 
       // Check if the slot is already taken.
-      $taken = $app['dbs']['mysql_read']->fetchColumn('SELECT COUNT(*) FROM appointments WHERE doctor_id = ? AND time_start = ? AND deleted_at IS NULL;', array($doctor_id, $time));
+      $taken = $app['dbs']['mysql_read']->fetchColumn('SELECT COUNT(*) FROM appointments WHERE doctor_id = ? AND time_start = ? AND deleted_at IS NULL;', array($doctor_id, date('Y-m-d H:i:s', $time)));
       if ($taken) {
           return new JsonResponse(array('error' => 'The appointment slot is already taken!'));
       }
