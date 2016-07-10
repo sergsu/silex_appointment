@@ -15,14 +15,14 @@ $app->register(
         'host' => 'localhost',
         'dbname' => 'silex_appointment',
         'user' => 'root',
-        'password' => '',
+        'password' => 'root',
       ),
       'mysql_write' => array(
         'driver' => 'pdo_mysql',
         'host' => 'localhost',
         'dbname' => 'silex_appointment',
         'user' => 'root',
-        'password' => '',
+        'password' => 'root',
       ),
     ),
   )
@@ -32,6 +32,9 @@ $app->register(
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
     'twig.class_path'   => __DIR__.'/../vendor/twig/twig/lib',
+    'twig.options'    => array(
+        'cache' => '/tmp/twig_cache',
+    ),
 ));
 $app['crud.layout'] = 'base.twig';
 
