@@ -18,11 +18,39 @@ $app->get(
 );
 
 $app->get(
-  '/api/slots/avaliable/{doctor}/{start}',
-  function ($doctor, $start) use ($app) {
-      $appointments = $app['dbs']['mysql_read']->fetchAll('SELECT * FROM appointments WHERE doctor_id = ? AND deleted_at IS NULL;', array((int)$doctor));
+  '/api/slots/available/{doctor}/{start}/{end}',
+  function ($doctor, $start, $end) use ($app) {
+      // Load existing appointments.
+      $appointments = $app['dbs']['mysql_read']->fetchAll(
+        'SELECT time_start FROM appointments WHERE doctor_id = ? AND time_start BETWEEN ? AND ? AND deleted_at IS NULL;',
+        array(
+          (int)$doctor,
+          date('Y-m-d H:i:s', $start),
+          date('Y-m-d H:i:s', $end),
+        )
+      );
+      if (!is_array($appointments)) {
+          $appointments = array();
+      }
 
-      return new JsonResponse($appointments);
+      $appointments = array_map('reset', $appointments);
+
+      // Build available time slots list.
+      $start = $start - ($start % 86400);
+      $end = $end - ($end % 86400) + 86400 - 1;
+      $days = floor(($end - $start) / 86400);
+
+      // @todo Rework it to use time intervals instead of plain list of slots to save bandwidth.
+      $possible_slots = array();
+      for ($day = 0; $day <= $days; $day++) {
+          $current_day_time = $start + $day * 86400 + $app['doctor_workday_time_start'] * 60 * 60;
+          $current_day_time_end = $start + $day * 86400 + $app['doctor_workday_time_end'] * 60 * 60;
+          for ($time = $current_day_time; $time < $current_day_time_end; $time += $app['appointment_time_amount']) {
+              $possible_slots[] = date('Y-m-d H:i:s', $time);
+          }
+      }
+
+      return new JsonResponse(array_values(array_diff($possible_slots, $appointments)));
   }
 );
 
@@ -31,7 +59,7 @@ $app->post(
   function (Request $request) use ($app) {
       $data = json_decode($request->getContent(), true);
       $doctor_id = (int)$data['doctor']['id'];
-      $time = (int)strtotime($data['start']);
+      $time = (int)strtotime($data['startLocalString']);
       $phone = $data['phone'];
 
       // Ensure the time slot start time is correct.

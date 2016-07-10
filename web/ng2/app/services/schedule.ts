@@ -9,32 +9,32 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ScheduleApi {
-    apiUrl:string = '/api/appointments';
+    apiUrl:string = '/api/';
     headers:Headers = new Headers;
-    appointments$:Observable<Appointment[]>;
-    private _appointmentsObserver:Observer<Appointment[]>;
-    private _dataStore:{
-        appointments: Appointment[]
-    };
 
     constructor(private _http:Http) {
         this.headers.append('Content-Type', 'application/x-www-form-urlencoded');
         this.headers.append('X-Requested-With', 'XMLHttpRequest');
-
-        this.appointments$ = new Observable(observer => this._appointmentsObserver = observer).share();
-        this._dataStore = {appointments: []};
     }
 
-    public getAppointments() {
-        this._http.get(this.apiUrl).map(response => response.json()).subscribe(data => {
-            this._dataStore.appointments = data.appointments;
-            this._appointmentsObserver.next(this._dataStore.appointments);
-        }, error => console.log('Could not load appointments.'));
+    public getAppointments(doctor:Doctor, start, end) {
+        return new Promise((resolve, reject) => {
+            this._http.get(this.apiUrl + 'slots/available/' + doctor.id + '/' + start + '/' + end)
+                .map(response => response.json())
+                .subscribe(
+                    (res) => {
+                        resolve(res);
+                    },
+                    (error) => {
+                        reject(error);
+                    }
+                );
+        })
     }
 
     public createAppointment(appointment) {
         return new Promise((resolve, reject) => {
-            this._http.post(this.apiUrl, appointment, {
+            this._http.post(this.apiUrl + 'appointments', appointment, {
                     headers: this.headers
                 })
                 .map((res:Response) => res.json())

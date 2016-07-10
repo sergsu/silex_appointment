@@ -5,14 +5,14 @@
            class="btn btn-default"
            [class.btn-primary]="selectedDoctor == doctor"
            href="#doctor-{{ doctor.id }}"
-           (click)="selectedDoctor = doctor"
+           (click)="selectDoctor(doctor)"
            role="button">
             {{ doctor.name }}
         </a>
     </div>
 
     <h2>Available Times</h2>
-    <table class="timetable table table-striped">
+    <table class="timetable table table-striped" *ngIf="!timeTableIsLoading && availableSlots.length > 0">
         <tr>
             <th>Time</th>
             <th *ngFor="let day of days">{{weekDays[day.getDay()]}}<br/>{{day.toLocaleDateString()}}</th>
@@ -30,6 +30,15 @@
             </td>
         </tr>
     </table>
+    <div class="progress" *ngIf="timeTableIsLoading">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+             aria-valuemax="100" style="width: 100%">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="!timeTableIsLoading && availableSlots.length == 0">
+        Unfortunately, no time slots are available for this week. Please, try another week if it's acceptable for you.
+    </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="appointment-dialog">
         <div class="modal-dialog">
@@ -46,7 +55,7 @@
                         </div>
                         <div class="form-group">
                             <div class="well">
-                                <p>You're going to schedule an appointment to <strong>{{appointment.doctor?.name}}</strong> on <strong>{{appointment.start?.toLocaleString()}}</strong>.</p>
+                                <p>You're going to schedule an appointment to <strong>{{appointment.doctor?.name}}</strong> on <strong>{{appointment.startLocalTime?.toLocaleString()}}</strong>.</p>
                                 <p>If the time is correct, please, leave your phone number so we can contact you and confirm the appointment.</p>
                             </div>
                             <label for="phone">Your Phone Number</label>
