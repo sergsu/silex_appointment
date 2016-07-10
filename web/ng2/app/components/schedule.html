@@ -11,33 +11,35 @@
         </a>
     </div>
 
-    <h2>Available Times</h2>
-    <table class="timetable table table-striped" *ngIf="!timeTableIsLoading && availableSlots.length > 0">
-        <tr>
-            <th>Time</th>
-            <th *ngFor="let day of days">{{weekDays[day.getDay()]}}<br/>{{day.toLocaleDateString()}}</th>
-        </tr>
-        <tr *ngFor="let time of slots">
-            <td>{{time[0].time.formatted}}</td>
-            <td
-                    *ngFor="let day of time"
-                    [class.active]="day.active"
-                    [class.success]="day.active"
-                    [class.danger]="!day.active"
-                    (click)="openDialog(day)"
-            >
-                <span class="glyphicon" [class.glyphicon-ok]="day.active" [class.glyphicon-remove]="!day.active"></span>
-            </td>
-        </tr>
-    </table>
-    <div class="progress" *ngIf="timeTableIsLoading">
-        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-             aria-valuemax="100" style="width: 100%">
-            <span class="sr-only">Loading...</span>
+    <div *ngIf="selectedDoctor.id">
+        <h2>Available Times</h2>
+        <table class="timetable table table-striped" *ngIf="!timeTableIsLoading && availableSlots.length > 0">
+            <tr>
+                <th>Time</th>
+                <th *ngFor="let day of days">{{weekDays[day.getDay()]}}<br/>{{day.toLocaleDateString()}}</th>
+            </tr>
+            <tr *ngFor="let time of slots">
+                <td>{{time[0].time.formatted}}</td>
+                <td
+                        *ngFor="let day of time"
+                        [class.active]="day.active"
+                        [class.success]="day.active"
+                        [class.danger]="!day.active"
+                        (click)="openDialog(day)"
+                >
+                    <span class="glyphicon" [class.glyphicon-ok]="day.active" [class.glyphicon-remove]="!day.active"></span>
+                </td>
+            </tr>
+        </table>
+        <div class="progress" *ngIf="timeTableIsLoading">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                 aria-valuemax="100" style="width: 100%">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
-    </div>
-    <div class="alert alert-danger" *ngIf="!timeTableIsLoading && availableSlots.length == 0">
-        Unfortunately, no time slots are available for this week. Please, try another week if it's acceptable for you.
+        <div class="alert alert-danger" *ngIf="!timeTableIsLoading && availableSlots.length == 0">
+            Unfortunately, no time slots are available for this week. Please, try another week if it's acceptable for you.
+        </div>
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="appointment-dialog">
