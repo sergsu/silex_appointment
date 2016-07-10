@@ -11,11 +11,11 @@
         </a>
     </div>
 
-    <h2>Choose the Time</h2>
+    <h2>Available Times</h2>
     <table class="timetable table table-striped">
         <tr>
             <th>Time</th>
-            <th *ngFor="let day of days">{{weekDays[day.getDay()]}}<br />{{day.toLocaleDateString()}}</th>
+            <th *ngFor="let day of days">{{weekDays[day.getDay()]}}<br/>{{day.toLocaleDateString()}}</th>
         </tr>
         <tr *ngFor="let time of slots">
             <td>{{time[0].time.formatted}}</td>
@@ -24,9 +24,42 @@
                     [class.active]="day.active"
                     [class.success]="day.active"
                     [class.danger]="!day.active"
+                    (click)="openDialog(day)"
             >
                 <span class="glyphicon" [class.glyphicon-ok]="day.active" [class.glyphicon-remove]="!day.active"></span>
             </td>
         </tr>
     </table>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="appointment-dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Schedule an Appointment</h4>
+                </div>
+                <form role="form">
+                    <div class="modal-body">
+                        <div class="alert alert-danger" *ngIf="formError">
+                            {{ formError }}
+                        </div>
+                        <div class="form-group">
+                            <div class="well">
+                                <p>You're going to schedule an appointment to <strong>{{appointment.doctor?.name}}</strong> on <strong>{{appointment.start?.toLocaleString()}}</strong>.</p>
+                                <p>If the time is correct, please, leave your phone number so we can contact you and confirm the appointment.</p>
+                            </div>
+                            <label for="phone">Your Phone Number</label>
+                            <input type="text" id="phone" class="form-control" [(ngModel)]="appointment.phone"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" [disabled]="disableForm" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" [disabled]="disableForm" (click)="createAppointment(appointment)">Schedule</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>

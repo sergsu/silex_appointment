@@ -32,21 +32,6 @@ export class ScheduleApi {
         }, error => console.log('Could not load appointments.'));
     }
 
-    public getAppointment(id) {
-        return new Promise((resolve, reject) => {
-            this._http.get(this.apiUrl + id)
-                .map((res:Response) => res.json())
-                .subscribe(
-                    (res) => {
-                        resolve(res);
-                    },
-                    (error) => {
-                        reject(error);
-                    }
-                );
-        })
-    }
-
     public createAppointment(appointment) {
         return new Promise((resolve, reject) => {
             this._http.post(this.apiUrl, appointment, {
@@ -62,35 +47,5 @@ export class ScheduleApi {
                     }
                 );
         })
-    }
-
-    public updateAppointment(appointment, id) {
-        return new Promise((resolve, reject) => {
-            this._http.patch(this.apiUrl + id, appointment, {
-                    headers: this.headers
-                })
-                .map((res:Response) => res.json())
-                .subscribe(
-                    (res) => {
-                        resolve(res);
-                    },
-                    (error) => {
-                        reject(error);
-                    }
-                );
-        })
-    }
-
-    public deleteAppointment(id) {
-        this._http.delete(this.apiUrl + id, {
-            headers: this.headers
-        }).subscribe(response => {
-            this._dataStore.appointments.forEach((t, i) => {
-                if (t.id === id) {
-                    this._dataStore.appointments.splice(i, 1);
-                }
-            });
-            this._appointmentsObserver.next(this._dataStore.appointments);
-        }, error => console.log('Could not delete appointment.'));
     }
 }

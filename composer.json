@@ -1,6 +1,6 @@
 {
-  "name": "Angerslave/silex-booking",
-  "description": "Silex booking app",
+  "name": "Angerslave/silex-appointment",
+  "description": "Silex appointment app",
   "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [

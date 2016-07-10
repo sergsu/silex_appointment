@@ -9,7 +9,9 @@
 
                 {% endfor %}
             ],
-            slotSize: {{ app.appointment_time_amount }}
+            slotSize: {{ app.appointment_time_amount }},
+            doctorWorkdayTimeStart: {{ app.doctor_workday_time_start }},
+            doctorWorkdayTimeEnd: {{ app.doctor_workday_time_end }}
         }
     </script>
 

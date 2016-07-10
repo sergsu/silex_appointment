@@ -2,6 +2,8 @@
 
 // Time slot size.
 $app['appointment_time_amount'] = '15'; // Minutes.
+$app['doctor_workday_time_start'] = 8; // A doctor works from...
+$app['doctor_workday_time_end'] = 20; // to.
 
 // Database.
 $app->register(
@@ -11,14 +13,14 @@ $app->register(
       'mysql_read' => array(
         'driver' => 'pdo_mysql',
         'host' => 'localhost',
-        'dbname' => 'silex_booking',
+        'dbname' => 'silex_appointment',
         'user' => 'root',
         'password' => '',
       ),
       'mysql_write' => array(
         'driver' => 'pdo_mysql',
         'host' => 'localhost',
-        'dbname' => 'silex_booking',
+        'dbname' => 'silex_appointment',
         'user' => 'root',
         'password' => '',
       ),
